@@ -19,3 +19,4 @@ juizes_drogas_CL <- decisoes %>%
 write_rds(juizes_drogas_CL, "C:/Users/ML/Documents/Aulas_ENAP/juizes_drogas_CL.rds")
 
 
+
