@@ -84,3 +84,19 @@ d_partes <- processo %>%
   select(n_processo, partes) %>%
   unnest(partes)
 
+inner_decisoesR <- decisoes %>% 
+  filter(data_registro == "18/01/2018", !is.na(id_decisao)) %>% 
+  select(id_decisao, n_processo) %>% 
+ right_join(
+    processo %>%
+      dplyr::select(n_processo, partes)) # seleciona colunas específicas da tabela processo
+
+
+inner_decisoesR <- decisoes %>% 
+  filter(data_registro == "18/01/2018", !is.na(id_decisao)) %>% 
+  select(id_decisao, n_processo) %>% 
+  right_join(processo)  # seleciona todas as colunas da tabela processo
+
+
+
+
