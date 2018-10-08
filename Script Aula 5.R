@@ -8,7 +8,7 @@ gc()
 
 install.packages("survyr")
 
-"survey"juizes_drogas_CL <- decisoes %>%
+  juizes_drogas_CL <- decisoes %>%
   select(juiz,municipio,txt_decisao,data_registro,data_decisao) %>%
   mutate(txt_decisao = tolower(txt_decisao),
          droga = str_detect(txt_decisao,
@@ -84,6 +84,3 @@ d_partes <- processo %>%
   select(n_processo, partes) %>%
   unnest(partes)
 
-
-decisoes %>%
-  distinct(juiz, municipio)
