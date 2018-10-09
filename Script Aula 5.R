@@ -84,10 +84,10 @@ d_partes <- processo %>%
   select(n_processo, partes) %>%
   unnest(partes)
 
-inner_decisoesR <- decisoes %>% 
+inner_decisoes <- decisoes %>% 
   filter(data_registro == "18/01/2018", !is.na(id_decisao)) %>% 
   select(id_decisao, n_processo) %>% 
- right_join(
+ inner_join(
     processo %>%
       dplyr::select(n_processo, partes)) # seleciona colunas específicas da tabela processo
 
@@ -98,5 +98,32 @@ inner_decisoesR <- decisoes %>%
   right_join(processo)  # seleciona todas as colunas da tabela processo
 
 
+bancadas <- read_rds("C:/Users/ML/Documents/Aulas_ENAP/Dados/bancadas.rds")
+colicagacoes <- read_xlsx("C:/Users/ML/Documents/Aulas_ENAP/Dados/coligacoes.xlsx")
+governismo_temer <- read_xlsx("C:/Users/ML/Documents/Aulas_ENAP/Dados/governismo_temer.xlsx")
+
+#Caminho padrão
+setwd("C:/Users/ML/Documents/Aulas_ENAP/Dados")
+#lendo arquivo bancadas
+bancadas <- read_rds("bancadas.rds") %>% 
+#unindo coligações com bancadas
+left_join(
+  read_xlsx("coligacoes.xlsx") 
+) %>% 
+#unindo govenismo com bancada
+left_join(
+  read_xlsx("governismo_temer.xlsx")
+)
 
 
+bancadas_co_GovTemer <- bancadas %>%
+  select(party, size) %>%
+  left_join(colicagacoes) %>% 
+  left_join(governismo_temer) %>% 
+  group_by(president) %>% 
+  summarise(media=mean(governismo)) %>% 
+  arrange(media) %>% 
+  na.omit()
+
+?order_by
+  
